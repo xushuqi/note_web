@@ -8,9 +8,8 @@
 // }).$mount('#app')
 
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import SignUp from './view/SignUp.vue'
-import SignIn from './view/SignIn.vue'
+import App from './App.vue'
+
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import '../public/css/layout.css'
@@ -19,15 +18,10 @@ import '../public/css/style.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 Vue.config.productionTip = false
 
-const routes = [
-	{path: '#/signIn', component: SignIn},
-	{path: '#/signUp', component: SignUp}
-]
-const router = new VueRouter({
-	routes: routes
-})
-Vue.use(VueRouter)
+//引入路由
+import router from './router.js'//import router的router一定要小写，不要写成Router，否则会报can't match的错误
+
 new Vue({
-	router: router,
-	render: h => h(SignUp),
+	router: router,//注入到根实例
+	render: h => h(App),
 }).$mount('#app')

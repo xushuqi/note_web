@@ -26,7 +26,7 @@
 								<div class="" style="float:none;font-size:3rem;font-family:cursive;">
 									<button class="btn btn-info" id="signIn" style="font-size: 2rem;width: 12rem;">登录</button>
 									<span style="vertical-align: middle;">/</span>
-									<button class="btn btn-info" id="signUp" style="font-size: 2rem;">注册</button>
+									<router-link to="signUp" class="btn" id="signUp" style="font-size: 2rem;">注册</router-link>
 								</div>
 							</div>
 						</div>

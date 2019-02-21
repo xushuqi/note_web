@@ -12,27 +12,27 @@
 						<div class="form-group" style="height:5rem;line-height:5rem;margin-top:1rem;">
 							<div class="col-sm-12">
 								<input type="text" name="userName" class="form-control" id="userName" placeholder="用户名"
-								style="height:5rem;line-height:5rem;font-size:2rem;font-family:cursive;" v-model="userName"/>
+								style="height:5rem;line-height:5rem;font-family:cursive;" v-model="userName"/>
 							</div>
 						</div>
 						<div class="form-group" style="height:5rem;line-height:5rem;margin-top:1rem;">
 							<div class="col-sm-12">
 								<input type="password" name="password" class="form-control" id="password" placeholder="密码"
-								style="height:5rem;line-height:5rem;font-size:2rem;font-family:cursive;" v-model="password"/>
+								style="height:5rem;line-height:5rem;font-family:cursive;" v-model="password"/>
 							</div>
 						</div>
 						<div class="form-group" style="height:5rem;line-height:5rem;margin-top:1rem;">
 							<div class="col-sm-12">
 								<input type="password" name="rePassword" class="form-control" id="rePassword" placeholder="确认密码"
-								style="height:5rem;line-height:5rem;font-size:2rem;font-family:cursive;" v-model="rePassword"/>
+								style="height:5rem;line-height:5rem;font-family:cursive;" v-model="rePassword"/>
 							</div>
 						</div>
 						<div class="form-group" style="height:5rem;line-height:5rem;margin-top:1rem;text-align:center;">
 							<div class="col-sm-12">
-								<div class="" style="float:none;font-size:3rem;font-family:cursive;">
-									<button class="btn btn-info" id="signUp" style="font-size: 2rem;width: 12rem;" @click="signUp">注册</button>
+								<div class="" style="float:none;font-family:cursive;">
+									<button class="btn btn-info" id="signUp" style="width: 12rem;" @click="signUp">注册</button>
 									<span style="vertical-align: middle;">/</span>
-									<router-link to="signIn" class="btn btn-info" id="signIn" style="font-size: 2rem;">登录</router-link>
+									<router-link to="signIn" class="btn" id="signIn">登录</router-link>
 								</div>
 							</div>
 						</div>
@@ -69,6 +69,7 @@
 					return;
 				}
 
+				this.$router.push('admin')
 			}
 		}
 	}
