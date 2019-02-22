@@ -10,12 +10,12 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<textarea name="noteContent" id="noteContent" class="form-control" placeholder="内容" style="width: 100%;height: 32rem;"></textarea>
+							<textarea name="noteContent" id="noteContent" class="form-control" placeholder="内容" style="width: 100%;height: 20rem;"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<button class="btn btn-info" id="submit" type="button" @click="submit">提交</button>
+							<button class="btn btn-info" id="submit" type="button" @click="submitNote">提交</button>
 							<button class="btn btn-info" id="cancel" type="button" style="margin-left: 2rem;">取消</button>
 						</div>
 					</div>
@@ -27,7 +27,7 @@
 <script>
 	export default{
 		methods: {
-			submit() {
+			submitNote() {
 				this.$router.push('list')
 			}
 		}

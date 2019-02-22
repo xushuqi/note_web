@@ -11,24 +11,24 @@
 			</div>
 		</div>
 	</div>
-	<div class="container" id="wrapper" style="overflow: auto;height: 120rem;">
+	<div class="container" id="wrapper" style="overflow: auto;">
 		<div class="row">
 			<div id="pullDown">
 				<span class="pullDownLabel" id="pullDown-msg" style="display: none;">下拉刷新页面</span>
 			</div>
-			<div class="panel panel-default col-sm-12">
-				<div class="panel-body col-sm-12" style="text-align: left;">
+			<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
+				<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
 					<div>
 						<label class="control-label">主题</label>
-						<span style="margin-left: 1rem;"></span>
+						<span class="font-gray" style="margin-left: 1rem;">{{item.title}}</span>
 					</div>
 					<div>
 						<label class="control-label">创建时间</label>
-						<span style="margin-left: 1rem;"></span>
+						<span class="font-gray" style="margin-left: 1rem;">{{item.meta.createAt}}</span>
 					</div>
 					<div>
 						<label class="control-label">内容</label>
-						<span style="margin-left: 1rem;word-break: break-word;"></span>
+						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
 					</div>
 					<div style="text-align: right;">
 						<button type="button" class="btn btn-info edit">编辑</button>
@@ -45,6 +45,14 @@
 </template>
 <script>
 	export default{
+		data(){
+			return {
+				items: [
+					{_id: '123', title: 'abc', content: 'abc123', meta:{createAt: '2019-2-22'}},
+					{_id: '456', title: 'bbc', content: 'bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123bbc123', meta:{createAt: '2019-2-21'}}
+				]
+			}
+		},
 		methods: {
 			edit() {
 				this.$router.push('admin')

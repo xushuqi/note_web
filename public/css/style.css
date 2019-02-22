@@ -1,6 +1,5 @@
 body {
-  /*padding: 50px;*/
-  font: 1.5rem cursive;
+
 }
 
 a {
@@ -9,13 +8,14 @@ a {
 input, textarea {
 	border: 1px solid #ccc;
 	border-radius: 3px;
+	height: 2rem;
+	line-height: 2rem;
+	font-size: 1.5rem;
 }
 
-.height30 {
-	height: 30px;
-	line-height: 30px;
+.container {
+	padding-top: 1rem;
 }
-
-#abc{
-	color: red;
+.font-gray {
+	color: #999;
 }
