@@ -22,7 +22,7 @@
 						<div class="form-group" style="margin-top:1rem;text-align:center;">
 							<div class="col-sm-12">
 								<div class="" style="float:none;font-family:cursive;">
-									<button class="btn btn-info" id="signIn" style="width: 12rem;">登录</button>
+									<button class="btn btn-info" id="signIn" style="width: 12rem;" @click="signIn">登录</button>
 									<span style="vertical-align: middle;">/</span>
 									<router-link to="signUp" class="btn" id="signUp">注册</router-link>
 								</div>
@@ -36,7 +36,21 @@
 </template>
 
 <script>
-	
+	export default{
+		name: 'app',
+		data() {
+			return {
+				userName: '',
+				password: ''
+			}
+		},
+		methods: {
+			signIn: function() {
+
+				this.$router.push({name: 'admin', params: {userName: this.userName}})
+			}
+		}
+	}
 </script>
 
 <style>

@@ -28,7 +28,7 @@
 	export default{
 		methods: {
 			submitNote() {
-				this.$router.push('list')
+				this.$router.push({name: 'list'})
 			}
 		}
 	}
