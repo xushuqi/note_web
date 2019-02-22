@@ -13,8 +13,8 @@ const routes = [
 	{path: '/', redirect: '/signUp'},//重定向，设置默认首页
 	{name: 'signIn', path: '/signIn', component: SignIn},
 	{name: 'signUp', path: '/signUp', component: SignUp},
-	{name: 'admin', path: '/admin', component: Admin},
-	{name: 'list', path: '/list', component: List}
+	{name: 'admin', path: '/admin/:userName', component: Admin},
+	{name: 'list', path: '/list/:userName', component: List}
 ];
 
 var router = new VueRouter({

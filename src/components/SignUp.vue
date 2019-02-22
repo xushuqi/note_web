@@ -60,17 +60,17 @@
 					this.userName = this.userName.trim();
 					return;
 				}
-				if(this.password.trim() == '' || this.rePassword.trim() == ''){
+				/*if(this.password.trim() == '' || this.rePassword.trim() == ''){
 					alert('请输入密码')
 					return;
 				}
 				if(this.password !== this.rePassword){
 					alert('确认密码和密码不一致，请检查');
 					return;
-				}
+				}*/
 
 				this.$emit('userName', this.userName)
-				this.$router.push('admin')
+				this.$router.push({name: 'admin', params: {userName: this.userName}})
 			}
 		}
 	}

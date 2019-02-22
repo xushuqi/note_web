@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-      <span>123{{userName}}</span>
+      <span style="text-align: right;display: inline-block;height: 2rem;line-height: 2rem;">欢迎您，{{this.$route.params.userName}}，{{new Date() | dataFmt('YYYY-MM-DD HH:mm:ss')}}</span>
     </header>
     <!-- 对应的组件内容渲染到router-view中 -->
     <router-view></router-view>
