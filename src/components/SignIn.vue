@@ -47,7 +47,7 @@
 		methods: {
 			signIn: function() {
 
-				this.$router.push({name: 'admin', params: {userName: this.userName}})
+				this.$router.push({name: 'list', params: {userName: this.userName}})
 			}
 		}
 	}

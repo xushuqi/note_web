@@ -5,18 +5,18 @@
 				<div class=".form-horizontal">
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" name="noteTitle" id="noteTitle" class="form-control" placeholder="标题" style="height: 3rem;line-height: 3rem;">
+							<input type="text" class="form-control" placeholder="标题" v-model="title">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<textarea name="noteContent" id="noteContent" class="form-control" placeholder="内容" style="width: 100%;height: 20rem;"></textarea>
+							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 20rem;" v-model="content"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<button class="btn btn-info" id="submit" type="button" @click="submitNote">提交</button>
-							<button class="btn btn-info" id="cancel" type="button" style="margin-left: 2rem;">取消</button>
+							<button class="btn btn-info" type="button" @click="submitNote(id)">提交</button>
+							<button class="btn btn-info" type="button" style="margin-left: 2rem;">取消</button>
 						</div>
 					</div>
 				</div>
@@ -26,6 +26,10 @@
 </template>
 <script>
 	export default{
+		data() {
+			let item = this.$route.params
+			return item
+		},
 		methods: {
 			submitNote() {
 				this.$router.push({name: 'list'})
