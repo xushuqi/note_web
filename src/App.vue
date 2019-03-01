@@ -2,7 +2,7 @@
   <div id="app">
     <header>
       <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-      <span v-if="this.$route.params.userName" style="text-align: right;display: inline-block;height: 2rem;line-height: 2rem;">欢迎您，{{this.$route.params.userName}}，{{new Date() | dataFmt('YYYY-MM-DD HH:mm:ss')}}</span>
+      <span v-if="this.$route.params.userName" style="text-align: right;display: inline-block;height: 2rem;line-height: 2rem;" @click="userMng">欢迎您，{{this.$route.params.userName}}，{{new Date() | dataFmt('YYYY-MM-DD HH:mm:ss')}}</span>
     </header>
     <!-- 对应的组件内容渲染到router-view中 -->
     <router-view></router-view>
@@ -27,6 +27,9 @@
         this.$nextTick(function() {
           this.isRouterAlive = true
         })
+      },
+      userMng() {
+        this.$router.push({name: 'userMng'})
       }
     }
   }

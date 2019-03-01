@@ -5,23 +5,34 @@
 				<div class=".form-horizontal">
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" class="form-control" placeholder="标题" v-model="title">
+							<p style="float:none;font-size:2rem;font-family:cursive;">用户信息管理</p>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 20rem;" v-model="content"></textarea>
+							<input type="text" class="form-control" placeholder="用户名" v-model="title">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" class="form-control" placeholder="提醒时间" v-model="remindTime">
+							<input type="password" class="form-control" placeholder="密码" v-model="title">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<button class="btn btn-info" type="button" @click="submitNote(id)">提交</button>
+							<input type="password" class="form-control" placeholder="确认密码" v-model="title">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-11">
+							<input type="text" class="form-control" placeholder="手机号" v-model="title">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-11">
+							<button class="btn btn-info" type="button" @click="submitUser()">提交</button>
 							<button class="btn btn-info" type="button" style="margin-left: 2rem;">取消</button>
+							<button class="btn btn-danger" type="button" style="margin-left: 2rem;">注销</button>
 						</div>
 					</div>
 				</div>
