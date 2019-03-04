@@ -11,8 +11,10 @@ import Vue from 'vue'
 import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
+import {Message} from 'element-ui'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import '../public/css/layout.css'
 import '../public/css/style.css'
 
@@ -25,7 +27,11 @@ import router from './router.js'//import router的router一定要小写，不要
 Vue.filter('dataFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
+
+axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios = axios
+
+Vue.prototype.Message = Message
 
 new Vue({
 	router: router,//注入到根实例

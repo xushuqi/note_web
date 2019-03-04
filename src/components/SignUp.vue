@@ -44,6 +44,7 @@
 </template>
 
 <script>
+	import {Message} from 'element-ui'
 	export default{
 		name: 'app',
 		data() {
@@ -68,8 +69,29 @@
 					alert('确认密码和密码不一致，请检查');
 					return;
 				}
-
-				this.$router.push({name: 'list', params: {userName: this.userName}})
+				this.$axios.post('/user/signUp', {
+					name: this.userName,
+					password: this.password
+				})
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						Message({
+							showClose: true,
+							message: JSON.stringify(data.meta.msg),
+							type: 'error'
+						})
+					}else{
+						this.$router.push({name: 'list', params: {userName: resp.data.name}})
+					}
+				}.bind(this))
+				.catch(function(error) {
+					Message({
+						showClose: true,
+						message: JSON.stringify(error),
+						type: 'error'
+					})
+				})
 			}
 		}
 	}
