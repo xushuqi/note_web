@@ -11,12 +11,12 @@
 						</div>
 						<div class="form-group" style="margin-top:1rem;">
 							<div class="col-sm-12">
-								<input type="text" name="userName" class="form-control" id="userName" placeholder="用户名"/>
+								<input type="text" class="form-control" v-model="name" placeholder="用户名"/>
 							</div>
 						</div>
 						<div class="form-group" style="margin-top:1rem;">
 							<div class="col-sm-12">
-								<input type="password" name="password" class="form-control" id="password" placeholder="密码"/>
+								<input type="password" class="form-control" v-model="password" placeholder="密码"/>
 							</div>
 						</div>
 						<div class="form-group" style="margin-top:1rem;text-align:center;">
@@ -36,18 +36,41 @@
 </template>
 
 <script>
+	import {Message} from 'element-ui'
 	export default{
 		name: 'app',
 		data() {
 			return {
-				userName: '',
+				name: '',
 				password: ''
 			}
 		},
 		methods: {
 			signIn: function() {
 
-				this.$router.push({name: 'list', params: {userName: this.userName}})
+				this.$axios.post('/user/signIn', this.$qs.stringify({
+					name: this.name,
+					password: this.password
+				}))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						Message({
+							showClose: true,
+							message: JSON.stringify(data.meta.msg),
+							type: 'error'
+						})
+					}else{
+						this.$router.push({name: 'list', params: {userName: resp.data.name}})
+					}
+				}.bind(this))
+				.catch(function(error) {
+					Message({
+						showClose: true,
+						message: JSON.stringify(error),
+						type: 'error'
+					})
+				})
 			}
 		}
 	}

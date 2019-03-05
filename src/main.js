@@ -1,16 +1,8 @@
-// import Vue from 'vue'
-// import App from './App.vue'
-
-// Vue.config.productionTip = false
-
-// new Vue({
-//   render: h => h(App),
-// }).$mount('#app')
-
 import Vue from 'vue'
 import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
+import qs from 'qs'
 import {Message} from 'element-ui'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -30,6 +22,7 @@ Vue.filter('dataFmt', function(input, fmtString) {
 
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios = axios
+Vue.prototype.$qs = qs
 
 Vue.prototype.Message = Message
 

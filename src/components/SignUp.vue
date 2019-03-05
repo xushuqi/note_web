@@ -69,10 +69,10 @@
 					alert('确认密码和密码不一致，请检查');
 					return;
 				}
-				this.$axios.post('/user/signUp', {
+				this.$axios.post('/user/signUp', this.$qs.stringify({
 					name: this.userName,
 					password: this.password
-				})
+				}))
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
