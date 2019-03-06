@@ -46,32 +46,49 @@
 	</div>
 </template>
 <script>
+	import {Message} from 'element-ui'
 	export default{
 		inject: ['reload'],//注入reload方法
 		data(){
-			this.$axios.get('/list')
-				.then(function(resp) {
-					alert(resp)
-				})
-				.catch(function(err) {
-					alert(err)
-				})
 			return {
-				items: [
-					{id: '1', title: '测试title1', content: '测试content1', meta:{createAt: '2019-2-22'}},
-					{id: '2', title: 'test', content: '测试content信息测试content信息测试content信息测试content信息测试content信息测试content信息测试content信息', meta:{createAt: '2019-2-21'}}
-				]
+				items: []
 			}
+		},
+		mounted: function() {
+			let _this = this
+			_this.$axios.post('/note/list')
+			.then(function(resp) {
+				var data = resp.data;
+				if(data.meta.code !== 'success'){
+					Message({
+						showClose: true,
+						message: JSON.stringify(data.meta.msg),
+						type: 'error'
+					})
+					_this.items = []
+				}else{
+					_this.items = data.result
+				}
+			})
+			.catch(function(err) {
+				Message({
+					showClose: true,
+					message: JSON.stringify(err),
+					type: 'error'
+				})
+				_this.items = []
+			})
 		},
 		methods: {
 			addNew() {
-				this.$router.push('admin')
+				this.$router.push({name: 'admin', params: {}})
 			},
 			edit(item) {
 				let data = {}
-				data.id = item.id
+				data.id = item._id
 				data.title = item.title
 				data.content = item.content
+				data.remindTime = item.remindTime ? item.remindTime : undefined
 				this.$router.push({name: 'admin', params: data})
 			},
 			del() {

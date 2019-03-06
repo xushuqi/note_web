@@ -21,7 +21,7 @@
 					<div class="form-group">
 						<div class="col-sm-11">
 							<button class="btn btn-info" type="button" @click="submitNote(id)">提交</button>
-							<button class="btn btn-info" type="button" style="margin-left: 2rem;">取消</button>
+							<button class="btn btn-info" type="button" style="margin-left: 2rem;" @click="cancel">取消</button>
 						</div>
 					</div>
 				</div>
@@ -30,6 +30,7 @@
 	</div>
 </template>
 <script>
+	import {Message} from 'element-ui'
 	export default{
 		data() {
 			let item = this.$route.params
@@ -37,8 +38,52 @@
 		},
 		methods: {
 			submitNote() {
-				alert('标题长度不能大于30')
-				//this.$router.push({name: 'list'})
+				let _this = this
+				let id = _this.id
+				let title = _this.title.trim()
+				let content = _this.content.trim()
+				let remindTime = _this.remindTime
+				if(title.length > 30){
+					Message({
+						showClose: true,
+						message: '标题长度不能大于30',
+						type: 'error'
+					})
+					return;
+				}
+				_this.$axios.post('/note/admin', _this.$qs.stringify({
+					id: id,
+					title: title,
+					content: content,
+					remindTime: remindTime
+				}))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						Message({
+							showClose: true,
+							message: JSON.stringify(data.meta.msg),
+							type: 'error'
+						})
+					}else{
+						Message({
+							showClose: true,
+							message: '操作执行成功',
+							type: 'error'
+						})
+						_this.$router.push({name: 'list'})
+					}
+				})
+				.catch(function(error) {
+					Message({
+						showClose: true,
+						message: JSON.stringify(error),
+						type: 'error'
+					})
+				})
+			},
+			cancel() {
+				this.$router.push({name: 'list'})
 			}
 		}
 	}

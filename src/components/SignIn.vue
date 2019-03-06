@@ -61,7 +61,7 @@
 							type: 'error'
 						})
 					}else{
-						this.$router.push({name: 'list', params: {userName: resp.data.name}})
+						this.$router.push({name: 'list', params: {userName: data.result[0].name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
