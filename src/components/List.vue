@@ -88,7 +88,6 @@
 				data.id = item._id
 				data.title = item.title
 				data.content = item.content
-				data.remindTime = item.remindTime ? item.remindTime : undefined
 				this.$router.push({name: 'admin', params: data})
 			},
 			del() {

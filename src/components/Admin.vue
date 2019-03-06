@@ -34,7 +34,7 @@
 	export default{
 		data() {
 			let item = this.$route.params
-			return item
+			return item.title ? item : {id: '', title: '', content: '', remindTime: ''}
 		},
 		methods: {
 			submitNote() {
