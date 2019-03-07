@@ -34,7 +34,11 @@
 	export default{
 		data() {
 			let item = this.$route.params
-			return item.title ? item : {id: '', title: '', content: '', remindTime: ''}
+			item = item.title ? item : {id: '', title: '', content: '', remindTime: ''}
+			if(item.remindTime == undefined){
+				item.remindTime = '';
+			}
+			return item
 		},
 		methods: {
 			submitNote() {

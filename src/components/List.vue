@@ -34,7 +34,7 @@
 					<div style="text-align: right;">
 						<button type="button" class="btn btn-info edit" @click="edit(item)">提醒</button>
 						<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
-						<button type="button" class="btn btn-danger del" style="margin-left: 2rem;" @click="del(item.id)">删除</button>
+						<button type="button" class="btn btn-danger del" style="margin-left: 2rem;" @click="del(item)">删除</button>
 					</div>
 				</div>
 			</div>
@@ -90,9 +90,35 @@
 				data.content = item.content
 				this.$router.push({name: 'admin', params: data})
 			},
-			del() {
-				//alert(id)
-				this.reload()
+			del(item) {
+				let _this = this
+				_this.$axios('/note/del', _this.$qs.stringify({
+					id: item._id
+				}))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						Message({
+							showClose: true,
+							message: JSON.stringify(data.meta.msg),
+							type: 'error'
+						})
+					}else{
+						Message({
+							showClose: true,
+							message: '操作执行成功',
+							type: 'error'
+						})
+						this.reload()
+					}
+				})
+				.catch(function(error) {
+					Message({
+						showClose: true,
+						message: JSON.stringify(error),
+						type: 'error'
+					})
+				})
 			}
 		}
 	}
