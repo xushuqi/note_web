@@ -55,17 +55,13 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
-							
-						})
+						MessageBox('提示', JSON.stringify(data.meta.msg))
 					}else{
 						this.$router.push({name: 'list', params: {userName: data.result[0].name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
-					MessageBox.alert(JSON.stringify(error)).then(action => {
-						
-					})
+					MessageBox('提示', JSON.stringify(error))
 				})
 			}
 		}

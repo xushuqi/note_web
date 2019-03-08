@@ -15,7 +15,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" class="form-control" placeholder="提醒时间" v-model="remindTime">
+							<input type="text" class="form-control" placeholder="提醒时间" v-model="remindTime" @click="openPicker">
 						</div>
 					</div>
 					<div class="form-group">
@@ -27,16 +27,23 @@
 				</div>
 			</div>
 		</div>
+		<mt-datetime-picker
+			ref="picker"
+			type="datetime"
+			v-model="remindTime"
+			@confirm="handleConfirm">
+		</mt-datetime-picker>
 	</div>
 </template>
 <script>
+	import moment from 'moment'
 	import {MessageBox} from 'mint-ui'
 	export default{
 		data() {
 			let item = this.$route.params
 			item = item.title ? item : {id: '', title: '', content: '', remindTime: ''}
 			if(item.remindTime == undefined){
-				item.remindTime = '';
+				item.remindTime =  moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
 			}
 			return item
 		},
@@ -48,9 +55,7 @@
 				let content = _this.content.trim()
 				let remindTime = _this.remindTime
 				if(title.length > 30){
-					MessageBox.alert('标题长度不能大于30').then(action => {
-						
-					})
+					MessageBox('提示', '标题长度不能大于30')
 					return;
 				}
 				_this.$axios.post('/note/admin', _this.$qs.stringify({
@@ -62,23 +67,26 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
-							
-						})
+						MessageBox('提示', JSON.stringify(data.meta.msg))
 					}else{
-						MessageBox.alert('操作执行成功').then(action => {
+						MessageBox.alert('操作执行成功').then(function() {
 							_this.$router.push({name: 'list'})
 						})
 					}
 				})
 				.catch(function(error) {
-					MessageBox.alert(JSON.stringify(error)).then(action => {
-						
-					})
+					MessageBox('提示', JSON.stringify(error))
 				})
 			},
 			cancel() {
 				this.$router.push({name: 'list'})
+			},
+			openPicker() {
+				this.$refs.picker.open()
+			},
+			handleConfirm(date) {
+				let datetime = moment(date).format('YYYY-MM-DD hh:mm')
+				this.remindTime = datetime.toString()
 			}
 		}
 	}

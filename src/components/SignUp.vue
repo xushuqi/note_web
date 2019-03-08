@@ -57,28 +57,20 @@
 		methods: {
 			signUp() {
 				if(this.userName.trim() == ''){
-					MessageBox.alert('请输入用户名').then(action => {
-
-					})
+					MessageBox('提示', '请输入用户名')
 					this.userName = this.userName.trim();
 					return;
 				}
 				if(this.password.trim() == ''){
-					MessageBox.alert('请输入密码').then(action => {
-						
-					})
+					MessageBox('提示', '请输入密码')
 					return;
 				}
 				if(this.rePassword.trim() == ''){
-					MessageBox.alert('请输入确认密码').then(action => {
-						
-					})
+					MessageBox('提示', '请输入确认密码')
 					return;
 				}
 				if(this.password !== this.rePassword){
-					MessageBox.alert('确认密码和密码不一致，请检查').then(action => {
-						
-					})
+					MessageBox('提示', '确认密码和密码不一致，请检查')
 					return;
 				}
 				this.$axios.post('/user/signUp', this.$qs.stringify({
@@ -88,17 +80,13 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
-							
-						})
+						MessageBox('提示', JSON.stringify(data.meta.msg))
 					}else{
 						this.$router.push({name: 'list', params: {userName: data.result.name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
-					MessageBox.alert(JSON.stringify(error)).then(action => {
-						
-					})
+					MessageBox('提示', JSON.stringify(error))
 				})
 			}
 		}

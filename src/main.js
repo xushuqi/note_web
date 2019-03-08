@@ -3,7 +3,7 @@ import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
-import {MessageBox} from 'mint-ui'
+import {MessageBox, DatetimePicker} from 'mint-ui'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'mint-ui/lib/style.css'
@@ -16,12 +16,11 @@ Vue.config.productionTip = false
 //引入路由
 import router from './router.js'//import router的router一定要小写，不要写成Router，否则会报can't match的错误
 
-Vue.filter('dataFmt', function(input, fmtString) {
+Vue.filter('dateFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-/*Vue.component(Message.name, Message)
-Vue.component(MessageBox.name, MessageBox)*/
+Vue.component(DatetimePicker.name, DatetimePicker)
 
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios = axios

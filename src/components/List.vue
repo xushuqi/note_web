@@ -31,6 +31,10 @@
 						<label class="control-label">内容</label>
 						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
 					</div>
+					<div>
+						<label class="control-label">提醒时间</label>
+						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.meta.remindTime}}</span>
+					</div>
 					<div style="text-align: right;">
 						<button type="button" class="btn btn-info edit" @click="edit(item)">提醒</button>
 						<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
@@ -46,6 +50,7 @@
 	</div>
 </template>
 <script>
+	import moment from 'moment'
 	import {MessageBox} from 'mint-ui'
 	export default{
 		inject: ['reload'],
@@ -60,18 +65,14 @@
 			.then(function(resp) {
 				var data = resp.data;
 				if(data.meta.code !== 'success'){
-					MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
-						
-					})
+					MessageBox('提示', JSON.stringify(data.meta.msg))
 					_this.items = []
 				}else{
 					_this.items = data.result
 				}
 			})
 			.catch(function(err) {
-				MessageBox.alert(JSON.stringify(err)).then(action => {
-					
-				})
+				MessageBox('提示', JSON.stringify(err))
 				_this.items = []
 			})
 		},
@@ -84,6 +85,7 @@
 				data.id = item._id
 				data.title = item.title
 				data.content = item.content
+				data.remindTime = moment(item.remindTime).format('YYYY-MM-DD hh:mm')
 				this.$router.push({name: 'admin', params: data})
 			},
 			del(item) {
@@ -96,25 +98,16 @@
 						.then(function(resp) {
 							var data = resp.data;
 							if(data.meta.code !== 'success'){
-								MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
-									
-								})
+								MessageBox('提示', JSON.stringify(data.meta.msg))
 							}else{
-								MessageBox.alert('操作执行成功').then(action => {
-									
-								})
+								MessageBox('提示', '操作执行成功')
 								_this.reload()
-								done()
 								// _this.$router.push({name: '/list', query: {_time: new Date().getTime()}})
 							}
 						})
 						.catch(function(error) {
-							MessageBox.alert(JSON.stringify(error)).then(action => {
-								
-							})
+							MessageBox('提示', JSON.stringify(error))
 						})
-					}else{
-						done()
 					}
 				}).catch(() => {
 
