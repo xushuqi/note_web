@@ -3,10 +3,10 @@ import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
-import {Message, MessageBox} from 'element-ui'
+import {MessageBox} from 'mint-ui'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import 'element-ui/lib/theme-chalk/index.css'
+import 'mint-ui/lib/style.css'
 import '../public/css/layout.css'
 import '../public/css/style.css'
 
@@ -23,11 +23,11 @@ Vue.filter('dataFmt', function(input, fmtString) {
 /*Vue.component(Message.name, Message)
 Vue.component(MessageBox.name, MessageBox)*/
 
-axios.defaults.baseURL = 'http://192.168.43.19:3000'
+axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 
-Vue.prototype.Message = Message
+Vue.prototype.MessageBox = MessageBox
 
 new Vue({
 	router: router,//注入到根实例

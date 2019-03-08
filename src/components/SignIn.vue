@@ -36,7 +36,7 @@
 </template>
 
 <script>
-	import {Message} from 'element-ui'
+	import {MessageBox} from 'mint-ui'
 	export default{
 		name: 'app',
 		data() {
@@ -55,20 +55,16 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						Message({
-							showClose: true,
-							message: JSON.stringify(data.meta.msg),
-							type: 'error'
+						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
+							
 						})
 					}else{
 						this.$router.push({name: 'list', params: {userName: data.result[0].name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
-					Message({
-						showClose: true,
-						message: JSON.stringify(error),
-						type: 'error'
+					MessageBox.alert(JSON.stringify(error)).then(action => {
+						
 					})
 				})
 			}

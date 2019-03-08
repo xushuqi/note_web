@@ -30,7 +30,7 @@
 	</div>
 </template>
 <script>
-	import {Message} from 'element-ui'
+	import {MessageBox} from 'mint-ui'
 	export default{
 		data() {
 			let item = this.$route.params
@@ -48,10 +48,8 @@
 				let content = _this.content.trim()
 				let remindTime = _this.remindTime
 				if(title.length > 30){
-					Message({
-						showClose: true,
-						message: '标题长度不能大于30',
-						type: 'error'
+					MessageBox.alert('标题长度不能大于30').then(action => {
+						
 					})
 					return;
 				}
@@ -64,25 +62,18 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						Message({
-							showClose: true,
-							message: JSON.stringify(data.meta.msg),
-							type: 'error'
+						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
+							
 						})
 					}else{
-						Message({
-							showClose: true,
-							message: '操作执行成功',
-							type: 'error'
+						MessageBox.alert('操作执行成功').then(action => {
+							_this.$router.push({name: 'list'})
 						})
-						_this.$router.push({name: 'list'})
 					}
 				})
 				.catch(function(error) {
-					Message({
-						showClose: true,
-						message: JSON.stringify(error),
-						type: 'error'
+					MessageBox.alert(JSON.stringify(error)).then(action => {
+						
 					})
 				})
 			},

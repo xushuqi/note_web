@@ -44,7 +44,7 @@
 </template>
 
 <script>
-	import {Message} from 'element-ui'
+	import {MessageBox} from 'mint-ui'
 	export default{
 		name: 'app',
 		data() {
@@ -57,16 +57,28 @@
 		methods: {
 			signUp() {
 				if(this.userName.trim() == ''){
-					alert('请输入用户名');
+					MessageBox.alert('请输入用户名').then(action => {
+
+					})
 					this.userName = this.userName.trim();
 					return;
 				}
-				if(this.password.trim() == '' || this.rePassword.trim() == ''){
-					alert('请输入密码')
+				if(this.password.trim() == ''){
+					MessageBox.alert('请输入密码').then(action => {
+						
+					})
+					return;
+				}
+				if(this.rePassword.trim() == ''){
+					MessageBox.alert('请输入确认密码').then(action => {
+						
+					})
 					return;
 				}
 				if(this.password !== this.rePassword){
-					alert('确认密码和密码不一致，请检查');
+					MessageBox.alert('确认密码和密码不一致，请检查').then(action => {
+						
+					})
 					return;
 				}
 				this.$axios.post('/user/signUp', this.$qs.stringify({
@@ -76,20 +88,16 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						Message({
-							showClose: true,
-							message: JSON.stringify(data.meta.msg),
-							type: 'error'
+						MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
+							
 						})
 					}else{
 						this.$router.push({name: 'list', params: {userName: data.result.name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
-					Message({
-						showClose: true,
-						message: JSON.stringify(error),
-						type: 'error'
+					MessageBox.alert(JSON.stringify(error)).then(action => {
+						
 					})
 				})
 			}

@@ -46,7 +46,7 @@
 	</div>
 </template>
 <script>
-	import {Message, MessageBox} from 'element-ui'
+	import {MessageBox} from 'mint-ui'
 	export default{
 		inject: ['reload'],
 		data(){
@@ -60,10 +60,8 @@
 			.then(function(resp) {
 				var data = resp.data;
 				if(data.meta.code !== 'success'){
-					Message({
-						showClose: true,
-						message: JSON.stringify(data.meta.msg),
-						type: 'error'
+					MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
+						
 					})
 					_this.items = []
 				}else{
@@ -71,10 +69,8 @@
 				}
 			})
 			.catch(function(err) {
-				Message({
-					showClose: true,
-					message: JSON.stringify(err),
-					type: 'error'
+				MessageBox.alert(JSON.stringify(err)).then(action => {
+					
 				})
 				_this.items = []
 			})
@@ -92,48 +88,33 @@
 			},
 			del(item) {
 				let _this = this
-				MessageBox.confirm('此操作将永久删除该信息，是否继续？', '消息', {
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: '确定',
-					cancelButtonText: '取消',
-					beforeClose: (action, instance, done) => {
-						if(action === 'confirm'){
-							instance.confirmButtonLoading = true
-							instance.confirmButtonText = '执行中'
-
-							_this.$axios.post('/note/del', _this.$qs.stringify({
-								id: item._id
-							}))
-							.then(function(resp) {
-								var data = resp.data;
-								if(data.meta.code !== 'success'){
-									Message({
-										showClose: true,
-										message: JSON.stringify(data.meta.msg),
-										type: 'error'
-									})
-								}else{
-									Message({
-										showClose: true,
-										message: '操作执行成功',
-										type: 'error'
-									})
-									_this.reload()
-									done()
-									// _this.$router.push({name: '/list', query: {_time: new Date().getTime()}})
-								}
-							})
-							.catch(function(error) {
-								Message({
-									showClose: true,
-									message: JSON.stringify(error),
-									type: 'error'
+				MessageBox.confirm('此操作将永久删除该信息，是否继续？').then(action => {
+					if(action === 'confirm'){
+						_this.$axios.post('/note/del', _this.$qs.stringify({
+							id: item._id
+						}))
+						.then(function(resp) {
+							var data = resp.data;
+							if(data.meta.code !== 'success'){
+								MessageBox.alert(JSON.stringify(data.meta.msg)).then(action => {
+									
 								})
+							}else{
+								MessageBox.alert('操作执行成功').then(action => {
+									
+								})
+								_this.reload()
+								done()
+								// _this.$router.push({name: '/list', query: {_time: new Date().getTime()}})
+							}
+						})
+						.catch(function(error) {
+							MessageBox.alert(JSON.stringify(error)).then(action => {
+								
 							})
-						}else{
-							done()
-						}
+						})
+					}else{
+						done()
 					}
 				}).catch(() => {
 
