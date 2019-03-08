@@ -5,7 +5,7 @@
       <span v-if="this.$route.params.userName" style="text-align: right;display: inline-block;height: 2rem;line-height: 2rem;" @click="userMng">欢迎您，{{this.$route.params.userName}}，{{new Date() | dataFmt('YYYY-MM-DD HH:mm:ss')}}</span>
     </header>
     <!-- 对应的组件内容渲染到router-view中 -->
-    <router-view></router-view>
+    <router-view v-if="isRouterAlive"></router-view>
   </div>
 </template>
 

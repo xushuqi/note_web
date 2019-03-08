@@ -3,7 +3,7 @@ import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
-import {Message} from 'element-ui'
+import {Message, MessageBox} from 'element-ui'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'element-ui/lib/theme-chalk/index.css'
@@ -20,7 +20,10 @@ Vue.filter('dataFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-axios.defaults.baseURL = 'http://127.0.0.1:3000'
+/*Vue.component(Message.name, Message)
+Vue.component(MessageBox.name, MessageBox)*/
+
+axios.defaults.baseURL = 'http://192.168.43.19:3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 

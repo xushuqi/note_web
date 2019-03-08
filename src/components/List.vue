@@ -1,6 +1,6 @@
 <template>
 	<div>
-	<div class="container">
+	<div class="container" style="border-bottom: 0.1rem solid #eee;">
 		<div class="row">
 			<div class="panel panel-default col-sm-12">
 				<div class="panel-body col-sm-12" style="text-align: right;">
@@ -46,9 +46,9 @@
 	</div>
 </template>
 <script>
-	import {Message} from 'element-ui'
+	import {Message, MessageBox} from 'element-ui'
 	export default{
-		inject: ['reload'],//注入reload方法
+		inject: ['reload'],
 		data(){
 			return {
 				items: []
@@ -92,32 +92,51 @@
 			},
 			del(item) {
 				let _this = this
-				_this.$axios('/note/del', _this.$qs.stringify({
-					id: item._id
-				}))
-				.then(function(resp) {
-					var data = resp.data;
-					if(data.meta.code !== 'success'){
-						Message({
-							showClose: true,
-							message: JSON.stringify(data.meta.msg),
-							type: 'error'
-						})
-					}else{
-						Message({
-							showClose: true,
-							message: '操作执行成功',
-							type: 'error'
-						})
-						this.reload()
+				MessageBox.confirm('此操作将永久删除该信息，是否继续？', '消息', {
+					type: 'warning',
+					showCancelButton: true,
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					beforeClose: (action, instance, done) => {
+						if(action === 'confirm'){
+							instance.confirmButtonLoading = true
+							instance.confirmButtonText = '执行中'
+
+							_this.$axios.post('/note/del', _this.$qs.stringify({
+								id: item._id
+							}))
+							.then(function(resp) {
+								var data = resp.data;
+								if(data.meta.code !== 'success'){
+									Message({
+										showClose: true,
+										message: JSON.stringify(data.meta.msg),
+										type: 'error'
+									})
+								}else{
+									Message({
+										showClose: true,
+										message: '操作执行成功',
+										type: 'error'
+									})
+									_this.reload()
+									done()
+									// _this.$router.push({name: '/list', query: {_time: new Date().getTime()}})
+								}
+							})
+							.catch(function(error) {
+								Message({
+									showClose: true,
+									message: JSON.stringify(error),
+									type: 'error'
+								})
+							})
+						}else{
+							done()
+						}
 					}
-				})
-				.catch(function(error) {
-					Message({
-						showClose: true,
-						message: JSON.stringify(error),
-						type: 'error'
-					})
+				}).catch(() => {
+
 				})
 			}
 		}
