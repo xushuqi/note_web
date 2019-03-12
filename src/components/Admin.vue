@@ -37,7 +37,6 @@
 </template>
 <script>
 	import moment from 'moment'
-	import {MessageBox} from 'mint-ui'
 	export default{
 		data() {
 			let item = this.$route.params
@@ -55,10 +54,12 @@
 				let content = _this.content.trim()
 				let remindTime = _this.remindTime
 				if(title.length > 30){
-					MessageBox('提示', '标题长度不能大于30')
+					_this.$Message.warning('标题长度不能大于30')
 					return;
 				}
 				_this.$axios.post('/note/admin', _this.$qs.stringify({
+					userId: sessionStorage.userId,
+					userName: sessionStorage.userName,
 					id: id,
 					title: title,
 					content: content,
@@ -67,15 +68,14 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						MessageBox('提示', JSON.stringify(data.meta.msg))
+						_this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
-						MessageBox.alert('操作执行成功').then(function() {
-							_this.$router.push({name: 'list'})
-						})
+						_this.$Message.warning('操作执行成功')
+						_this.$router.push({name: 'list'})
 					}
 				})
 				.catch(function(error) {
-					MessageBox('提示', JSON.stringify(error))
+					_this.$Message.warning(JSON.stringify(error))
 				})
 			},
 			cancel() {

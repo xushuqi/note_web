@@ -4,6 +4,8 @@ import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
 import {MessageBox, DatetimePicker} from 'mint-ui'
+import iView from 'iview'
+import 'iview/dist/styles/iview.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import 'mint-ui/lib/style.css'
@@ -27,6 +29,8 @@ Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 
 Vue.prototype.MessageBox = MessageBox
+
+Vue.use(iView)
 
 new Vue({
 	router: router,//注入到根实例

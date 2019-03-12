@@ -44,7 +44,6 @@
 </template>
 
 <script>
-	import {MessageBox} from 'mint-ui'
 	export default{
 		name: 'app',
 		data() {
@@ -57,20 +56,20 @@
 		methods: {
 			signUp() {
 				if(this.userName.trim() == ''){
-					MessageBox('提示', '请输入用户名')
+					this.$Message.warning('请输入用户名');
 					this.userName = this.userName.trim();
 					return;
 				}
 				if(this.password.trim() == ''){
-					MessageBox('提示', '请输入密码')
+					this.$Message.warning('请输入密码')
 					return;
 				}
 				if(this.rePassword.trim() == ''){
-					MessageBox('提示', '请输入确认密码')
+					this.$Message.warning('请输入确认密码')
 					return;
 				}
 				if(this.password !== this.rePassword){
-					MessageBox('提示', '确认密码和密码不一致，请检查')
+					this.$Message.warning('确认密码和密码不一致，请检查')
 					return;
 				}
 				this.$axios.post('/user/signUp', this.$qs.stringify({
@@ -80,13 +79,14 @@
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						MessageBox('提示', JSON.stringify(data.meta.msg))
+						this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
+						sessionStorage.userId = data.result._id
 						this.$router.push({name: 'list', params: {userName: data.result.name}})
 					}
 				}.bind(this))
 				.catch(function(error) {
-					MessageBox('提示', JSON.stringify(error))
+					this.$Message.warning(JSON.stringify(error))
 				})
 			}
 		}
