@@ -58,6 +58,7 @@
 					}else{
 						sessionStorage.userId = data.result[0]._id
 						sessionStorage.userName = data.result[0].name
+						sessionStorage.phone = data.result[0].phone
 						this.$router.push({name: 'list', params: {userName: data.result[0].name}})
 					}
 				}.bind(this))

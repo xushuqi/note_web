@@ -82,6 +82,7 @@
 						this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
 						sessionStorage.userId = data.result._id
+						sessionStorage.name = data.result.name
 						this.$router.push({name: 'list', params: {userName: data.result.name}})
 					}
 				}.bind(this))

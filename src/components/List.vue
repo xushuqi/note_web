@@ -126,9 +126,39 @@
 					_this.$Message.warning(JSON.stringify(error))
 				})
             },
-            remind(item) {},
+            remind(item) {
+				let _this = this
+				let id = item.id
+				let content = item.content.trim()
+				let remindTime = item.remindTime
+				let phone = sessionStorage.phone
+				if(!phone){
+					_this.$Message.warning('请先在用户管理界面保存手机号')
+					return
+				}
+				_this.$axios.post('/remind/insert', _this.$qs.stringify({
+					noteId: id,
+					userId: sessionStorage.userId,
+					userName: sessionStorage.userName,
+					phone: phone,
+					content: content,
+					remindTime: remindTime
+				}))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						_this.$Message.warning(JSON.stringify(data.meta.msg))
+					}else{
+						_this.$Message.warning('操作执行成功')
+						_this.$router.push({name: 'list'})
+					}
+				})
+				.catch(function(error) {
+					_this.$Message.warning(JSON.stringify(error))
+				})
+            },
             exportExcel() {
-            	let _this = this
+				let _this = this
                 _this.$axios.post('/note/export')
 				.then(function(resp) {
 					var data = resp.data;
