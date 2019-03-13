@@ -17,7 +17,7 @@
 			<div id="pullDown">
 				<span class="pullDownLabel" id="pullDown-msg" style="display: none;">下拉刷新页面</span>
 			</div>
-			<div v-for="item of items" v-bind:key="item.id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
+			<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
 				<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
 					<div>
 						<label class="control-label">标题</label>
@@ -25,7 +25,7 @@
 					</div>
 					<div>
 						<label class="control-label">创建时间</label>
-						<span class="font-gray" style="margin-left: 1rem;">{{item.meta.createAt}}</span>
+						<span class="font-gray" style="margin-left: 1rem;">{{item.createAt}}</span>
 					</div>
 					<div>
 						<label class="control-label">内容</label>
@@ -33,7 +33,7 @@
 					</div>
 					<div>
 						<label class="control-label">提醒时间</label>
-						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.meta.remindTime}}</span>
+						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
 					</div>
 					<div style="text-align: right;">
 						<button type="button" class="btn btn-info edit" @click="remind(item)">提醒</button>
@@ -97,9 +97,6 @@
 			edit(item) {
 				let data = {}
 				data.id = item._id
-				data.title = item.title
-				data.content = item.content
-				data.remindTime = moment(item.remindTime).format('YYYY-MM-DD hh:mm')
 				this.$router.push({name: 'admin', params: data})
 			},
 			delConfirm(item) {
@@ -128,7 +125,7 @@
             },
             remind(item) {
 				let _this = this
-				let id = item.id
+				let id = item._id
 				let content = item.content.trim()
 				let remindTime = item.remindTime
 				let phone = sessionStorage.phone

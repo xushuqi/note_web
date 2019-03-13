@@ -3,12 +3,10 @@ import App from './App.vue'
 import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
-import {MessageBox, DatetimePicker} from 'mint-ui'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import 'mint-ui/lib/style.css'
 import '../public/css/layout.css'
 import '../public/css/style.css'
 
@@ -22,13 +20,9 @@ Vue.filter('dateFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-Vue.component(DatetimePicker.name, DatetimePicker)
-
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
-
-Vue.prototype.MessageBox = MessageBox
 
 Vue.use(iView)
 

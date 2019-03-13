@@ -5,34 +5,33 @@
 				<div class=".form-horizontal">
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" class="form-control" placeholder="标题" v-model="title">
+							<input type="text" class="form-control" placeholder="标题" v-model="note.title">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 20rem;" v-model="content"></textarea>
+							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 20rem;" v-model="note.content"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<input type="text" class="form-control" placeholder="提醒时间" v-model="remindTime" @click="openPicker">
+							<Row>
+								<Col span="12" style="width: 100%;">
+									<DatePicker :value="note.remindTime" format="yyyy-MM-dd hh:mm" type="datetime" placeholder="提醒时间" style="width: 100%;font-size: 1rem;" :options="options3" v-model="note.remindTime"></DatePicker>
+								</Col>
+							</Row>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<button class="btn btn-info" type="button" @click="submitNote(id)">提交</button>
+							<button class="btn btn-info" type="button" @click="submitNote(note._id)">提交</button>
 							<button class="btn btn-info" type="button" style="margin-left: 2rem;" @click="cancel">取消</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<mt-datetime-picker
-			ref="picker"
-			type="datetime"
-			v-model="remindTime"
-			@confirm="handleConfirm">
-		</mt-datetime-picker>
+		
 	</div>
 </template>
 <script>
@@ -40,31 +39,68 @@
 	export default{
 		data() {
 			let item = this.$route.params
-			item = item.title ? item : {id: '', title: '', content: '', remindTime: ''}
-			if(item.remindTime == undefined){
-				item.remindTime =  moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+			return {
+				note: {
+					_id: item.id,
+					title: '',
+					content: '',
+					remindTime: ''
+				},
+				options3: {
+					disabledDate (date) {
+                        return date && date.valueOf() < Date.now() - 86400000;
+                    }
+				}
 			}
-			return item
+		},
+		mounted: function() {
+			let _this = this
+			let item = this.$route.params
+			let noteId = item.id
+			if(noteId === undefined){
+				return
+			}
+			var data = {
+				id: noteId
+			}
+			_this.$axios.post('/note/findById', _this.$qs.stringify(data))
+			.then(function(resp) {
+				var data = resp.data;
+				if(data.meta.code !== 'success'){
+					_this.$Message.warning(JSON.stringify(data.meta.msg))
+					_this.note = {
+						_id: '',
+						content: '',
+						remindTime: ''
+					}
+				}else{
+					_this.note = data.result
+				}
+			})
+			.catch(function(error) {
+				_this.$Message.warning(JSON.stringify(error))
+			})
 		},
 		methods: {
 			submitNote() {
-				let _this = this
-				let id = _this.id
-				let title = _this.title.trim()
-				let content = _this.content.trim()
-				let remindTime = _this.remindTime
+				var _this = this
+				var _id = _this.note._id
+				var title = _this.note.title.trim()
+				var content = _this.note.content.trim()
+				var remindTime = _this.note.remindTime
 				if(title.length > 30){
 					_this.$Message.warning('标题长度不能大于30')
 					return;
 				}
-				_this.$axios.post('/note/admin', _this.$qs.stringify({
+				var data = {
 					userId: sessionStorage.userId,
 					userName: sessionStorage.userName,
-					id: id,
+					_id: _id,
 					title: title,
 					content: content,
-					remindTime: remindTime
-				}))
+					remindTime: moment(remindTime).format('YYYY-MM-DD HH:mm')
+				}
+				_this.$axios.post('/note/admin', _this.$qs.stringify(data))
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
@@ -80,9 +116,6 @@
 			},
 			cancel() {
 				this.$router.push({name: 'list'})
-			},
-			openPicker() {
-				this.$refs.picker.open()
 			},
 			handleConfirm(date) {
 				let datetime = moment(date).format('YYYY-MM-DD hh:mm')
