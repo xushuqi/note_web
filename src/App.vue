@@ -29,7 +29,7 @@
         })
       },
       userMng() {
-        this.$router.push({name: 'userMng', params: {name: sessionStorage.userName}})
+        this.$router.push({name: 'userMng', params: {id: sessionStorage.userId}})
       }
     }
   }
