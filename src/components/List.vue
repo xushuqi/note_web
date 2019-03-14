@@ -62,7 +62,6 @@
 	</div>
 </template>
 <script>
-	import moment from 'moment'
 	export default{
 		inject: ['reload'],
 		data(){
@@ -127,13 +126,21 @@
 				let _this = this
 				let id = item._id
 				let content = item.content.trim()
-				let remindTime = item.remindTime
+				let remindTime = item.remindTime.trim()
 				let phone = sessionStorage.phone
 				if(!phone){
 					_this.$Message.warning('请先在用户管理界面保存手机号')
 					return
 				}
-				_this.$axios.post('/remind/insert', _this.$qs.stringify({
+				if(remindTime == ''){
+					_this.$Message.warning('请先设置提醒时间')
+					return
+				}
+				if(new Date(remindTime) < new Date()){
+					_this.$Message.warning('提醒时间已过期，请重新设置')
+					return
+				}
+				_this.$axios.post('/note/remind', _this.$qs.stringify({
 					noteId: id,
 					userId: sessionStorage.userId,
 					userName: sessionStorage.userName,

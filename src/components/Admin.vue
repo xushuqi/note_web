@@ -95,6 +95,7 @@
 				var data = {
 					userId: sessionStorage.userId,
 					userName: sessionStorage.userName,
+					phone: sessionStorage.phone,
 					_id: _id,
 					title: title,
 					content: content,
