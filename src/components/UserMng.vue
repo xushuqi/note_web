@@ -102,6 +102,7 @@
 					if(data.meta.code !== 'success'){
 						_this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
+						sessionStorage.phone = data.result.phone
 						_this.$Message.warning('操作执行成功')
 						_this.$router.push({name: 'list', params: {userName: sessionStorage.userName}})
 					}
