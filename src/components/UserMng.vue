@@ -91,6 +91,11 @@
 					_this.$Message.warning('请填写手机号，以用于事件提醒时发生短信')
 					return
 				}
+				var reg = /^1[3|4|5|7|8][0-9]{9}$/
+				if(phone !== '' && !reg.test(phone)){
+					_this.$Message.warning('手机号不正确')
+					return
+				}
 				var data = {
 					id: sessionStorage.userId,
 					phone: phone

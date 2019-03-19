@@ -35,6 +35,10 @@
 						<label class="control-label">提醒时间</label>
 						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
 					</div>
+					<div>
+						<label class="control-label">手机号</label>
+						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
+					</div>
 					<div style="text-align: right;">
 						<button type="button" class="btn btn-info edit" @click="remind(item)">提醒</button>
 						<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
@@ -127,9 +131,9 @@
 				let id = item._id
 				let content = item.content.trim()
 				let remindTime = item.remindTime.trim()
-				let phone = sessionStorage.phone
+				let phone = item.phone
 				if(!phone){
-					_this.$Message.warning('请先在用户管理界面保存手机号')
+					_this.$Message.warning('请先设置手机号')
 					return
 				}
 				if(remindTime == ''){
@@ -163,7 +167,7 @@
             },
             exportExcel() {
 				let _this = this
-                _this.$axios.post('/note/export')
+                _this.$axios.get('/note/download')
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){

@@ -15,6 +15,11 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
+							<input type="text" class="form-control" placeholder="提醒手机号" maxlength="11" v-model="note.phone">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-11">
 							<Row>
 								<Col span="12" style="width: 100%;">
 									<DatePicker :value="note.remindTime" format="yyyy-MM-dd hh:mm" type="datetime" placeholder="提醒时间" style="width: 100%;font-size: 1rem;" :options="options3" v-model="note.remindTime"></DatePicker>
@@ -44,7 +49,8 @@
 					_id: item.id,
 					title: '',
 					content: '',
-					remindTime: ''
+					remindTime: '',
+					phone: sessionStorage.phone
 				},
 				options3: {
 					disabledDate (date) {
@@ -75,6 +81,8 @@
 					}
 				}else{
 					_this.note = data.result
+					if(_this.note.phone == '')
+						_this.note.phone = sessionStorage.phone
 				}
 			})
 			.catch(function(error) {
@@ -87,19 +95,27 @@
 				var _id = _this.note._id
 				var title = _this.note.title.trim()
 				var content = _this.note.content.trim()
+				var phone = _this.note.phone
 				var remindTime = _this.note.remindTime
+				if(remindTime == 'Invalid date')
+					remindTime = ''
 				if(title.length > 30){
 					_this.$Message.warning('标题长度不能大于30')
-					return;
+					return
+				}
+				var reg = /^1[3|4|5|7|8][0-9]{9}$/
+				if(phone !== '' && !reg.test(phone)){
+					_this.$Message.warning('手机号不正确')
+					return
 				}
 				var data = {
 					userId: sessionStorage.userId,
 					userName: sessionStorage.userName,
-					phone: sessionStorage.phone,
+					phone: phone,
 					_id: _id,
 					title: title,
 					content: content,
-					remindTime: moment(remindTime).format('YYYY-MM-DD HH:mm')
+					remindTime: remindTime !== '' ? moment(remindTime).format('YYYY-MM-DD HH:mm') : ''
 				}
 				_this.$axios.post('/note/admin', _this.$qs.stringify(data))
 				.then(function(resp) {
