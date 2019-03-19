@@ -6,7 +6,7 @@
 				<div class="panel-body col-sm-12" style="text-align: right;">
 					<label class="control-label">
 						<button type="button" class="btn btn-info" @click="addNew">新增</button>
-						<button type="button" class="btn btn-info" style="margin-left: 2rem;" @click="exportExcel">导出</button>
+						<!-- <button type="button" class="btn btn-info" style="margin-left: 2rem;" @click="exportExcel">导出</button> -->
 					</label>
 				</div>
 			</div>

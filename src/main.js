@@ -20,7 +20,7 @@ Vue.filter('dateFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-axios.defaults.baseURL = 'http://127.0.0.1:3000'
+axios.defaults.baseURL = 'http://192.168.43.19:3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 

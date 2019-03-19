@@ -32,11 +32,24 @@
 						<div class="col-sm-11">
 							<button class="btn btn-info" type="button" @click="submitUser">提交</button>
 							<button class="btn btn-info" type="button" style="margin-left: 2rem;" @click="cancel">取消</button>
-							<button class="btn btn-danger" type="button" style="margin-left: 2rem;" @click="logout">注销</button>
+							<button class="btn btn-danger" type="button" style="margin-left: 2rem;" @click="signOutConfirm">注销</button>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
+		<modal v-model="showSignOutConfirm">
+			<p slot="header" style="color: #f60;text-align: center;">
+				<icon type="ios-information-circle"></icon>
+				<span>警告</span>
+			</p>
+			<div style="text-align: center;">
+				<p>注销后系统将删除所有相关信息，且无法恢复，是否继续？</p>
+			</div>
+			<div slot="footer">
+				<i-button type="error" size="large" @click="signOutOk">删除</i-button>
+			</div>
+		</modal>
 		</div>
 	</div>
 </template>
@@ -44,6 +57,7 @@
 	export default{
 		data() {
 			return {
+				showSignOutConfirm: false,
 				name: '',
 				password: '',
 				rePassword: '',
@@ -119,8 +133,28 @@
 			cancel() {
 				this.$router.push({name: 'list', params: {userName: sessionStorage.userName}})
 			},
-			logout() {
-
+			signOutConfirm() {
+				let _this = this
+				_this.showSignOutConfirm = true
+			},
+			signOutOk() {
+				var _this = this
+				var data = {}
+				data.id = sessionStorage.userId
+				_this.$axios.post('/user/signOut', _this.$qs.stringify(data))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						_this.$Message.warning(JSON.stringify(data.meta.msg))
+					}else{
+						sessionStorage.phone = data.result.phone
+						_this.$Message.warning('操作执行成功')
+						_this.$router.push({name: 'signUp'})
+					}
+				})
+				.catch(function(err) {
+					_this.$Message.warning(JSON.stringify(err))
+				})
 			}
 		}
 	}

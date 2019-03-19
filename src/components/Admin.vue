@@ -10,7 +10,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-11">
-							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 20rem;" v-model="note.content"></textarea>
+							<textarea class="form-control" placeholder="内容" style="width: 100%;height: 15rem;" v-model="note.content"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -50,7 +50,7 @@
 					title: '',
 					content: '',
 					remindTime: '',
-					phone: sessionStorage.phone
+					phone: sessionStorage.phone !== 'undefined' ? sessionStorage.phone : ''
 				},
 				options3: {
 					disabledDate (date) {
@@ -104,7 +104,7 @@
 					return
 				}
 				var reg = /^1[3|4|5|7|8][0-9]{9}$/
-				if(phone !== '' && !reg.test(phone)){
+				if(phone !== '' && phone !== undefined && !reg.test(phone)){
 					_this.$Message.warning('手机号不正确')
 					return
 				}
