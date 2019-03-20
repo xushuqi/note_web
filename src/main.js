@@ -7,8 +7,8 @@ import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-import '../public/css/layout.css'
-import '../public/css/style.css'
+import './assets/css/layout.css'
+import './assets/css/style.css'
 
 import '../node_modules/bootstrap/dist/js/bootstrap.min.js'
 Vue.config.productionTip = false
@@ -20,7 +20,7 @@ Vue.filter('dateFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-axios.defaults.baseURL = 'http://192.168.43.19:3000'
+axios.defaults.baseURL = 'http://192.168.43.174:3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 
