@@ -13,42 +13,38 @@
 		</div>
 	</div>
 	<div class="container" id="wrapper" style="overflow: auto;">
-		<div class="row">
-			<div id="pullDown">
-				<span class="pullDownLabel" id="pullDown-msg" style="display: none;">下拉刷新页面</span>
-			</div>
-			<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
-				<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
-					<div>
-						<label class="control-label">标题</label>
-						<span class="font-gray" style="margin-left: 1rem;">{{item.title}}</span>
-					</div>
-					<div>
-						<label class="control-label">创建时间</label>
-						<span class="font-gray" style="margin-left: 1rem;">{{item.createAt}}</span>
-					</div>
-					<div>
-						<label class="control-label">内容</label>
-						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
-					</div>
-					<div>
-						<label class="control-label">提醒时间</label>
-						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
-					</div>
-					<div>
-						<label class="control-label">手机号</label>
-						<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
-					</div>
-					<div style="text-align: right;">
-						<button type="button" class="btn btn-info edit" @click="remind(item)">提醒</button>
-						<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
-						<i-button class="btn btn-danger" @click="delConfirm(item)" style="margin-left: 2rem;">删除</i-button>
+		<div class="row" style="height: 30rem;">
+			<Scroll :on-reach-bottom="handleReachBottom">
+				<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
+					<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
+						<div>
+							<label class="control-label">标题</label>
+							<span class="font-gray" style="margin-left: 1rem;">{{item.title}}</span>
+						</div>
+						<div>
+							<label class="control-label">创建时间</label>
+							<span class="font-gray" style="margin-left: 1rem;">{{item.createAt}}</span>
+						</div>
+						<div>
+							<label class="control-label">内容</label>
+							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
+						</div>
+						<div>
+							<label class="control-label">提醒时间</label>
+							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
+						</div>
+						<div>
+							<label class="control-label">手机号</label>
+							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
+						</div>
+						<div style="text-align: right;">
+							<button type="button" class="btn btn-info edit" @click="remind(item)">提醒</button>
+							<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
+							<i-button class="btn btn-danger" @click="delConfirm(item)" style="margin-left: 2rem;">删除</i-button>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div id="pullUp">
-				<span class="pullDownLabel pullUp-msg"></span>
-			</div>
+			</Scroll>
 			<modal v-model="showDelConfirm">
 				<p slot="header" style="color: #f60;text-align: center;">
 					<icon type="ios-information-circle"></icon>
@@ -71,29 +67,36 @@
 		data(){
 			return {
 				showDelConfirm: false,
+				startLine: 0,
 				items: []
 			}
 		},
 		mounted: function() {
 			let _this = this
-			_this.$axios.post('/note/list', _this.$qs.stringify({
-				_id: sessionStorage.userId
-			}))
-			.then(function(resp) {
-				var data = resp.data;
-				if(data.meta.code !== 'success'){
-					this.$Message.warning(JSON.stringify(data.meta.msg))
-					_this.items = []
-				}else{
-					_this.items = data.result
-				}
-			})
-			.catch(function(err) {
-				this.$Message.warning(JSON.stringify(err))
-				_this.items = []
-			})
+			_this.loadList()
 		},
 		methods: {
+			loadList() {
+				var _this = this
+				_this.$axios.post('/note/list', _this.$qs.stringify({
+					_id: sessionStorage.userId,
+					startLine: _this.startLine
+				}))
+				.then(function(resp) {
+					var data = resp.data;
+					if(data.meta.code !== 'success'){
+						this.$Message.warning(JSON.stringify(data.meta.msg))
+						_this.items = []
+					}else{
+						_this.items = _this.items.concat(data.result)
+					}
+					_this.startLine = _this.items.length
+				})
+				.catch(function(err) {
+					this.$Message.warning(JSON.stringify(err))
+					_this.items = []
+				})
+			},
 			addNew() {
 				this.$router.push({name: 'admin', params: {}})
 			},
@@ -180,10 +183,21 @@
 				.catch(function(error) {
 					_this.$Message.warning(JSON.stringify(error))
 				})
-            }
+            },
+            handleReachBottom () {
+				var _this = this
+                return new Promise(resolve => {
+					setTimeout(() => {
+						_this.loadList()
+						resolve()
+					}, 2000);
+				});
+			}
 		}
 	}
 </script>
 <style>
-	
+	.ivu-scroll-container {
+		height: 30rem !important;
+	}
 </style>
