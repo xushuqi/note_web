@@ -115,7 +115,8 @@
 					_id: _id,
 					title: title,
 					content: content,
-					remindTime: remindTime !== '' ? moment(remindTime).format('YYYY-MM-DD HH:mm') : ''
+					remindTime: remindTime !== '' ? moment(remindTime).format('YYYY-MM-DD HH:mm') : '',
+					showRemind: remindTime !== '' ? true : undefined
 				}
 				_this.$axios.post('/note/admin', _this.$qs.stringify(data))
 				.then(function(resp) {

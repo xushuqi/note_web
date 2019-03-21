@@ -46,24 +46,24 @@
 		},
 		methods: {
 			signIn: function() {
-
-				this.$axios.post('/user/signIn', this.$qs.stringify({
-					name: this.name,
-					password: this.password
+				var _this = this
+				_this.$axios.post('/user/signIn', _this.$qs.stringify({
+					name: _this.name,
+					password: _this.password
 				}))
 				.then(function(resp) {
 					var data = resp.data;
 					if(data.meta.code !== 'success'){
-						this.$Message.warning(JSON.stringify(data.meta.msg))
+						_this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
 						sessionStorage.userId = data.result[0]._id
 						sessionStorage.userName = data.result[0].name
 						sessionStorage.phone = data.result[0].phone
-						this.$router.push({name: 'list', params: {userName: data.result[0].name}})
+						_this.$router.push({name: 'list', params: {userName: data.result[0].name}})
 					}
-				}.bind(this))
+				}.bind(_this))
 				.catch(function(error) {
-					this.$Message.warning(JSON.stringify(error))
+					_this.$Message.warning(JSON.stringify(error))
 				})
 			}
 		}

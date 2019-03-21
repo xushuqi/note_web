@@ -38,7 +38,7 @@
 							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
 						</div>
 						<div style="text-align: right;">
-							<button type="button" class="btn btn-info edit" @click="remind(item)">提醒</button>
+							<button type="button" class="btn btn-info edit" @click="remind(item)" v-if="item.showRemind">提醒</button>
 							<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
 							<i-button class="btn btn-danger" @click="delConfirm(item)" style="margin-left: 2rem;">删除</i-button>
 						</div>
