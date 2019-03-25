@@ -15,35 +15,38 @@
 	<div class="container" id="wrapper" style="overflow: auto;">
 		<div class="row" style="height: 30rem;">
 			<Scroll :on-reach-bottom="handleReachBottom">
-				<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-bottom: 1rem;">
-					<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
-						<div>
-							<label class="control-label">标题</label>
-							<span class="font-gray" style="margin-left: 1rem;">{{item.title}}</span>
-						</div>
-						<div>
-							<label class="control-label">创建时间</label>
-							<span class="font-gray" style="margin-left: 1rem;">{{item.createAt}}</span>
-						</div>
-						<div>
-							<label class="control-label">内容</label>
-							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
-						</div>
-						<div>
-							<label class="control-label">提醒时间</label>
-							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
-						</div>
-						<div>
-							<label class="control-label">手机号</label>
-							<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
-						</div>
-						<div style="text-align: right;">
-							<button type="button" class="btn btn-info edit" @click="remind(item)" v-if="item.showRemind">提醒</button>
-							<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
-							<i-button class="btn btn-danger" @click="delConfirm(item)" style="margin-left: 2rem;">删除</i-button>
+				<div v-if="items.length" class="col-sm-12">
+					<div v-for="item of items" v-bind:key="item._id" class="panel panel-default col-sm-12" style="padding-left: 0;padding-right: 0;padding-bottom: 1rem;margin: 0;">
+						<div class="panel-body col-sm-12" style="text-align: left;border: 0.1rem solid #eee;padding: 0.5rem">
+							<div>
+								<label class="control-label">标题</label>
+								<span class="font-gray" style="margin-left: 1rem;">{{item.title}}</span>
+							</div>
+							<div>
+								<label class="control-label">创建时间</label>
+								<span class="font-gray" style="margin-left: 1rem;">{{item.createAt}}</span>
+							</div>
+							<div>
+								<label class="control-label">内容</label>
+								<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.content}}</span>
+							</div>
+							<div>
+								<label class="control-label">提醒时间</label>
+								<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.remindTime}}</span>
+							</div>
+							<div>
+								<label class="control-label">手机号</label>
+								<span class="font-gray" style="margin-left: 1rem;word-break: break-word;">{{item.phone}}</span>
+							</div>
+							<div style="text-align: right;">
+								<button type="button" class="btn btn-info edit" @click="remind(item)" v-if="item.showRemind">提醒</button>
+								<button type="button" class="btn btn-info edit" @click="edit(item)" style="margin-left: 2rem;">编辑</button>
+								<i-button class="btn btn-danger" @click="delConfirm(item)" style="margin-left: 2rem;">删除</i-button>
+							</div>
 						</div>
 					</div>
 				</div>
+				<p v-else>没有记录信息!</p>
 			</Scroll>
 			<modal v-model="showDelConfirm">
 				<p slot="header" style="color: #f60;text-align: center;">
@@ -197,6 +200,10 @@
 	}
 </script>
 <style>
+	.ivu-scroll-wrapper {
+		margin: 0;
+		width: 100%;
+	}
 	.ivu-scroll-container {
 		height: 30rem !important;
 	}
