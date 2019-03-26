@@ -4,6 +4,7 @@ import moment from 'moment'
 import axios from 'axios'
 import qs from 'qs'
 import iView from 'iview'
+import config from './config/config.js'
 import 'iview/dist/styles/iview.css'
 
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
@@ -20,7 +21,7 @@ Vue.filter('dateFmt', function(input, fmtString) {
 	return moment(input).format(fmtString)
 })
 
-axios.defaults.baseURL = 'http://192.168.43.174:3000'
+axios.defaults.baseURL = 'http://'+config.SERVERIP+':3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 
