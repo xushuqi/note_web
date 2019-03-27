@@ -151,7 +151,7 @@
 					return
 				}
 				_this.$axios.post('/note/remind', _this.$qs.stringify({
-					noteId: id,
+					_id: id,
 					userId: sessionStorage.userId,
 					userName: sessionStorage.userName,
 					phone: phone,
@@ -164,7 +164,7 @@
 						_this.$Message.warning(JSON.stringify(data.meta.msg))
 					}else{
 						_this.$Message.warning('操作执行成功')
-						_this.$router.push({name: 'list'})
+						_this.reload()
 					}
 				})
 				.catch(function(error) {

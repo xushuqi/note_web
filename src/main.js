@@ -23,7 +23,7 @@ Vue.filter('dateFmt', function(input, fmtString) {
 
 Vue.use(config)
 
-axios.defaults.baseURL = 'http://'+this.global.serverIp+':3000'
+axios.defaults.baseURL = 'http://'+window.g.serverIp+':3000'
 Vue.prototype.$axios = axios
 Vue.prototype.$qs = qs
 
